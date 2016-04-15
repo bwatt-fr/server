@@ -1,0 +1,97 @@
+# ----------------------------------
+# Nginx
+# Use to serve the request of all services
+
+nginx:
+    image: jwilder/nginx-proxy:latest
+    volumes:
+        - /var/run/docker.sock:/tmp/docker.sock
+    ports:
+        - "80:80"
+
+# ----------------------------------
+# Shaarli
+# Microblogging service
+
+shaarli:
+    image: crichon/shaarli
+    ports:
+        - "80"
+    environment:
+        VIRTUAL_HOST: shaarli.localdomain
+    volumes_from:
+        - shaarlidata
+shaarlidata:
+    image: ubuntu:latest
+    volumes:
+        - /var/www/html/data
+    command: "echo shaarli data container"
+
+# -----------------------------------------------
+# Etherpad
+# Collaborative text document writing
+
+mysqlData:
+    image: ubuntu:latest
+    volumes:
+        - /var/lib/mysql
+
+db:
+    image: mysql:latest
+    volumes_from:
+        - mysqlData
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: dev
+        MYSQL_PASSWORD: devpassword
+        MYSQL_DATABASE: etherpad
+
+etherpad:
+    build: ./etherpad-pierrick/
+    links:
+        - db
+    command: /opt/etherpad/bin/./run.sh
+    ports:
+        - "80"
+    environment:
+        VIRTUAL_HOST: pads.localdomain
+
+# -------------------------------------------------------------
+# wallabag
+# Self hostable application to save web page
+
+wallabagdata:
+    image: zuhkov/wallabag
+    volumes:
+        - /var/www/wallabag
+
+wallabag:
+    image: zuhkov/wallabag
+    ports:
+        - "80"
+    environment:
+        VIRTUAL_HOST: bag.localdomain
+    volumes_from:
+        - wallabagdata
+
+# -----------------------------------------------
+# kanboard
+# Project collaboration management. Don't work actually
+
+#kanboarddata:
+#    image: ubuntu:latest
+#    volumes:
+#        - /var/www/html/data
+#
+#kanboard:
+#    image: kanboard/kanboard 
+#    ports:
+#        - "80"
+#    environment:
+#        VIRTUAL_HOST: boards.terminus.crichon.eu,boards.bwatt.eu
+#    volumes_from:
+#        - kanboarddata
+#    extra_hosts:
+#        boards.terminus.crichon.eu: 127.0.0.1
+#        boards.bwatt.eu: 127.0.0.1
+#
