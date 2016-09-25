@@ -3,3 +3,4 @@ The different services are :
 * shaarli
 * wallabag
 * etherpad
+* blog-jonglage
