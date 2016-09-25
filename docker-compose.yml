@@ -10,6 +10,36 @@ nginx:
         - "80:80"
 
 # ----------------------------------
+# Blog jonglage
+# A blog on jonglage
+
+data-jonglage:
+    image: ubuntu:latest
+    volumes:
+        - /var/lib/mysql
+
+blog-jonglage:
+    build: ./blog-jonglage/
+    ports:
+        - "80"
+    links:
+        - database-jonglage
+    environment:
+        VIRTUAL_HOST: jonglage.localdomain
+    command: /app/blog-jonglage/./start.sh
+
+database-jonglage:
+    image: mariadb:latest
+    volumes_from:
+        - data-jonglage
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: pierrick
+        MYSQL_PASSWORD: pierrickpass
+        MYSQL_DATABASE: jonglage
+        
+
+# ----------------------------------
 # Shaarli
 # Microblogging service
 
