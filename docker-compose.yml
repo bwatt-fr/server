@@ -91,12 +91,12 @@ etherpad:
 # Self hostable application to save web page
 
 wallabagdata:
-    image: zuhkov/wallabag
+    image: wallabag/wallabag
     volumes:
-        - /var/www/wallabag
+        - /var/www/wallabag/data
 
 wallabag:
-    image: zuhkov/wallabag
+    image: wallabag/wallabag
     ports:
         - "80"
     environment:
