@@ -6,6 +6,9 @@ nginx:
     image: jwilder/nginx-proxy:latest
     volumes:
         - /var/run/docker.sock:/tmp/docker.sock
+        - ./vhost.d:/etc/nginx/vhost.d
+    volumes_from:
+        - data-jonglage-static
     ports:
         - "80:80"
 
@@ -24,6 +27,8 @@ blog-jonglage:
         - "80"
     links:
         - database-jonglage
+    volumes_from:
+        - data-jonglage-static
     environment:
         VIRTUAL_HOST: jonglage.localdomain
     command: /app/blog-jonglage/./start.sh
@@ -37,7 +42,11 @@ database-jonglage:
         MYSQL_USER: pierrick
         MYSQL_PASSWORD: pierrickpass
         MYSQL_DATABASE: jonglage
-        
+
+data-jonglage-static:
+    image: ubuntu:latest
+    volumes:
+        - /data
 
 # ----------------------------------
 # Shaarli
