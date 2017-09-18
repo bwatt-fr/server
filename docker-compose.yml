@@ -8,7 +8,7 @@ nginx:
         - /var/run/docker.sock:/tmp/docker.sock
         - ./vhost.d:/etc/nginx/vhost.d
     volumes_from:
-        - data-jonglage-static
+        - server_data-jonglage-static_1
     ports:
         - "80:80"
 
@@ -42,6 +42,7 @@ database-jonglage:
         MYSQL_USER: pierrick
         MYSQL_PASSWORD: pierrickpass
         MYSQL_DATABASE: jonglage
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --character-set-client-handshake=FALSE
 
 data-jonglage-static:
     image: ubuntu:latest
