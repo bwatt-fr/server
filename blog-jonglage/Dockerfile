@@ -17,7 +17,7 @@ RUN pip3 install chaussette waitress==0.9.0 circus
 
 # Install application
 WORKDIR /app/blog-jonglage
-RUN git clone https://github.com/lilireli/blog-jonglage.git .
+RUN git clone -b dev https://github.com/lilireli/blog-jonglage.git .
 RUN pip3 install -r requirements.txt
 RUN mkdir instance
 ADD config.py instance/
