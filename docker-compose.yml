@@ -115,6 +115,18 @@ wallabag:
         - wallabagdata
 
 # -----------------------------------------------
+# ep-project
+# Project made to show my skills to the EP-startup
+# See here: https://github.com/bwatt-fr/ep-project
+ep-project:
+    build: ./ep-project/
+    ports:
+        - "80"
+    environment:
+        VIRTUAL_HOST: ep-project.localdomain
+    command: /app/ep-project/./start.sh
+
+# -----------------------------------------------
 # kanboard
 # Project collaboration management. Don't work actually
 
