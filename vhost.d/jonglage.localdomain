@@ -1,3 +1,4 @@
 location /static {
     root /data/blogapp;
 }
+client_max_body_size 100m;
