@@ -111,6 +111,7 @@ wallabag:
         - "80"
     environment:
         VIRTUAL_HOST: bag.localdomain
+        SYMFONY__ENV__DOMAIN_NAME: http://bag.localdomain
     volumes_from:
         - wallabagdata
 
