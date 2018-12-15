@@ -101,7 +101,7 @@ etherpad:
 # Self hostable application to save web page
 
 wallabagdata:
-    image: wallabag/wallabag
+    image: ubuntu:latest
     volumes:
         - /var/www/wallabag/data
 
@@ -141,7 +141,7 @@ house-monitoring:
     command: bash -c "cp -n /app/house-monitoring.db /data && /app/webserver -c /app/conf.json"
 
 house-monitoring-data:
-    image: wallabag/wallabag
+    image: ubuntu:latest
     volumes:
         - /data
 
