@@ -128,6 +128,24 @@ ep-project:
     command: /app/ep-project/./start.sh
 
 # -----------------------------------------------
+house-monitoring:
+    build: ./house-monitoring/
+    ports:
+        - "8000"
+        - "8001:8001"
+    environment:
+        VIRTUAL_HOST: on-se-capte-a-la-maison.localdomain
+        VIRTUAL_PORT: 8000
+    volumes_from:
+        - house-monitoring-data
+    command: bash -c "cp -n /app/house-monitoring.db /data && /app/webserver -c /app/conf.json"
+
+house-monitoring-data:
+    image: wallabag/wallabag
+    volumes:
+        - /data
+
+# -----------------------------------------------
 # kanboard
 # Project collaboration management. Don't work actually
 
