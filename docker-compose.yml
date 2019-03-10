@@ -6,15 +6,27 @@ nginx:
     image: jwilder/nginx-proxy:latest
     volumes:
         - /var/run/docker.sock:/tmp/docker.sock
-        - ./vhost.d:/etc/nginx/vhost.d
-    volumes_from:
-        - server_data-jonglage-static_1
     ports:
         - "80:80"
 
 # ----------------------------------
 # Blog jonglage
 # A blog on jonglage
+
+web-jonglage:
+    image: nginx
+    links:
+        - blog-jonglage
+    volumes:
+        - ./web-jonglage/nginx.conf:/etc/nginx/nginx.conf:ro
+        - ./web-jonglage/vhost.d:/etc/nginx/vhost.d
+    volumes_from:
+        - server_data-jonglage-static_1
+    environment:
+        - VIRTUAL_HOST=jonglage.localdomain
+        - VIRTUAL_PORT=80
+    restart: always
+
 data-jonglage:
     image: ubuntu:latest
     volumes:
@@ -28,8 +40,6 @@ blog-jonglage:
         - database-jonglage
     volumes_from:
         - data-jonglage-static
-    environment:
-        VIRTUAL_HOST: jonglage.localdomain
     command: /app/blog-jonglage/./start.sh
 
 database-jonglage:
