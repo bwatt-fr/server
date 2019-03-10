@@ -15,7 +15,6 @@ nginx:
 # ----------------------------------
 # Blog jonglage
 # A blog on jonglage
-
 data-jonglage:
     image: ubuntu:latest
     volumes:
@@ -146,23 +145,36 @@ house-monitoring-data:
         - /data
 
 # -----------------------------------------------
-# kanboard
-# Project collaboration management. Don't work actually
+nextcloud-web:
+    image: nginx
+    links:
+      - nextcloud-app
+    volumes:
+        - ./nextcloud-web/nginx.conf:/etc/nginx/nginx.conf:ro
+    volumes_from:
+      - nextcloud-app
+    environment:
+      - VIRTUAL_HOST=nextcloud.localdomain
+      - VIRTUAL_PORT=80
+    restart: always
 
-#kanboarddata:
-#    image: ubuntu:latest
-#    volumes:
-#        - /var/www/html/data
-#
-#kanboard:
-#    image: kanboard/kanboard 
-#    ports:
-#        - "80"
-#    environment:
-#        VIRTUAL_HOST: boards.terminus.crichon.eu,boards.bwatt.eu
-#    volumes_from:
-#        - kanboarddata
-#    extra_hosts:
-#        boards.terminus.crichon.eu: 127.0.0.1
-#        boards.bwatt.eu: 127.0.0.1
-#
+nextcloud-app:
+    image: nextcloud:fpm
+    links:
+      - nextcloud-db
+    volumes:
+      - /var/www/html/apps
+      - /var/www/html/config
+      - /var/www/html/data
+    restart: always
+    
+nextcloud-db:
+    image: mariadb
+    volumes:
+      - /var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=nextcloud
+    restart: always
