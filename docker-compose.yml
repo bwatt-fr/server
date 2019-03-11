@@ -8,6 +8,7 @@ nginx:
         - /var/run/docker.sock:/tmp/docker.sock
     ports:
         - "80:80"
+    restart: always
 
 # ----------------------------------
 # Blog jonglage
@@ -40,6 +41,7 @@ blog-jonglage:
         - database-jonglage
     volumes_from:
         - data-jonglage-static
+    restart: always
     command: /app/blog-jonglage/./start.sh
 
 database-jonglage:
@@ -52,6 +54,7 @@ database-jonglage:
         MYSQL_PASSWORD: pierrickpass
         MYSQL_DATABASE: jonglage
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --character-set-client-handshake=FALSE
+    restart: always
 
 data-jonglage-static:
     image: ubuntu:latest
@@ -70,6 +73,8 @@ shaarli:
         VIRTUAL_HOST: shaarli.localdomain
     volumes_from:
         - shaarlidata
+    restart: always
+
 shaarlidata:
     image: ubuntu:latest
     volumes:
@@ -94,6 +99,7 @@ db:
         MYSQL_USER: dev
         MYSQL_PASSWORD: devpassword
         MYSQL_DATABASE: etherpad
+    restart: always
 
 etherpad:
     build: ./etherpad-pierrick/
@@ -104,6 +110,7 @@ etherpad:
         - "80"
     environment:
         VIRTUAL_HOST: pads.localdomain
+    restart: always
 
 # -------------------------------------------------------------
 # wallabag
@@ -123,6 +130,7 @@ wallabag:
         SYMFONY__ENV__DOMAIN_NAME: http://bag.localdomain
     volumes_from:
         - wallabagdata
+    restart: always
 
 # -----------------------------------------------
 # ep-project
@@ -135,6 +143,7 @@ ep-project:
     environment:
         VIRTUAL_HOST: ep-project.localdomain
     command: /app/ep-project/./start.sh
+    restart: always
 
 # -----------------------------------------------
 house-monitoring:
@@ -148,6 +157,7 @@ house-monitoring:
     volumes_from:
         - house-monitoring-data
     command: bash -c "cp -n /app/house-monitoring.db /data && /app/webserver -c /app/conf.json"
+    restart: always
 
 house-monitoring-data:
     image: ubuntu:latest
@@ -180,11 +190,16 @@ nextcloud-app:
     
 nextcloud-db:
     image: mariadb
-    volumes:
-      - /var/lib/mysql
+    volumes_from:
+      - nextcloud-data
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=nextcloud
     restart: always
+
+nextcloud-data:
+    image: ubuntu:latest
+    volumes:
+        - /var/lib/mysql
