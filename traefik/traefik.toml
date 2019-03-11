@@ -1,0 +1,21 @@
+# traefik.toml
+################################################################
+# Global configuration
+################################################################
+
+defaultEntryPoints = ["http"]
+
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[web]
+address = ":8080" # Traefik web interface
+
+[docker]
+endpoint = "unix:///var/run/docker.sock" # Socket unix or TCP possible 
+domain = "localdomain" # Default domain
+watch = true # Traefik will know when there will be changes on Docker
+
+exposedbydefault = true 

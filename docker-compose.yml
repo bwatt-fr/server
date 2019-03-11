@@ -1,14 +1,22 @@
 # ----------------------------------
-# Nginx
+# Traefik
 # Use to serve the request of all services
 
-nginx:
-    image: jwilder/nginx-proxy:latest
-    volumes:
-        - /var/run/docker.sock:/tmp/docker.sock
+traefik:
+    image: traefik
     ports:
-        - "80:80"
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      -  "./traefik/traefik.toml:/etc/traefik/traefik.toml"
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: always
+    labels:
+      - "traefik.frontend.rule=Host:traefik.localdomain"
+      - "traefik.port=8080"
+      - "traefik.backend=traefik"
+      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.auth.basic=test:$$apr1$$gPjYTE6J$$RkWWC8Qk0LDAVKKE.5jPo0"
 
 # ----------------------------------
 # Blog jonglage
@@ -23,9 +31,11 @@ web-jonglage:
         - ./web-jonglage/vhost.d:/etc/nginx/vhost.d
     volumes_from:
         - server_data-jonglage-static_1
-    environment:
-        - VIRTUAL_HOST=jonglage.localdomain
-        - VIRTUAL_PORT=80
+    labels:
+      - "traefik.frontend.rule=Host:jonglage.localdomain"
+      - "traefik.port=80"
+      - "traefik.backend=jonglage"
+      - "traefik.frontend.entryPoints=http"
     restart: always
 
 data-jonglage:
@@ -71,6 +81,11 @@ shaarli:
         - "80"
     environment:
         VIRTUAL_HOST: shaarli.localdomain
+    labels:
+      - "traefik.frontend.rule=Host:shaarli.localdomain"
+      - "traefik.port=80"
+      - "traefik.backend=shaarli"
+      - "traefik.frontend.entryPoints=http"
     volumes_from:
         - shaarlidata
     restart: always
@@ -108,8 +123,13 @@ etherpad:
     command: /opt/etherpad/bin/./run.sh
     ports:
         - "80"
+    labels:
+      - "traefik.frontend.rule=Host:pads.localdomain"
+      - "traefik.port=80"
+      - "traefik.backend=etherpad"
+      - "traefik.frontend.entryPoints=http"
     environment:
-        VIRTUAL_HOST: pads.localdomain
+        NODE_ENV: production
     restart: always
 
 # -------------------------------------------------------------
@@ -125,8 +145,12 @@ wallabag:
     image: wallabag/wallabag
     ports:
         - "80"
+    labels:
+      - "traefik.frontend.rule=Host:bag.localdomain"
+      - "traefik.port=80"
+      - "traefik.backend=wallabag"
+      - "traefik.frontend.entryPoints=http"
     environment:
-        VIRTUAL_HOST: bag.localdomain
         SYMFONY__ENV__DOMAIN_NAME: http://bag.localdomain
     volumes_from:
         - wallabagdata
@@ -140,8 +164,11 @@ ep-project:
     build: ./ep-project/
     ports:
         - "80"
-    environment:
-        VIRTUAL_HOST: ep-project.localdomain
+    labels:
+      - "traefik.frontend.rule=Host:ep-project.localdomain"
+      - "traefik.port=80"
+      - "traefik.backend=ep-project"
+      - "traefik.frontend.entryPoints=http"
     command: /app/ep-project/./start.sh
     restart: always
 
@@ -151,9 +178,11 @@ house-monitoring:
     ports:
         - "8000"
         - "8001:8001"
-    environment:
-        VIRTUAL_HOST: on-se-capte-a-la-maison.localdomain
-        VIRTUAL_PORT: 8000
+    labels:
+      - "traefik.frontend.rule=Host:on-se-capte-a-la-maison.localdomain"
+      - "traefik.port=8000"
+      - "traefik.backend=house-monitoring"
+      - "traefik.frontend.entryPoints=http"
     volumes_from:
         - house-monitoring-data
     command: bash -c "cp -n /app/house-monitoring.db /data && /app/webserver -c /app/conf.json"
@@ -173,9 +202,11 @@ nextcloud-web:
         - ./nextcloud-web/nginx.conf:/etc/nginx/nginx.conf:ro
     volumes_from:
       - nextcloud-app
-    environment:
-      - VIRTUAL_HOST=nextcloud.localdomain
-      - VIRTUAL_PORT=80
+    labels:
+      - "traefik.frontend.rule=Host:nextcloud.localdomain"
+      - "traefik.port=80"
+      - "traefik.backend=nextcloud"
+      - "traefik.frontend.entryPoints=http"
     restart: always
 
 nextcloud-app:
