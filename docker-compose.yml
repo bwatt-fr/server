@@ -79,8 +79,6 @@ shaarli:
     image: crichon/shaarli
     ports:
         - "80"
-    environment:
-        VIRTUAL_HOST: shaarli.localdomain
     labels:
       - "traefik.frontend.rule=Host:shaarli.localdomain"
       - "traefik.port=80"
