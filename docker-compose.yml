@@ -232,3 +232,27 @@ nextcloud-data:
     image: ubuntu:latest
     volumes:
         - /var/lib/mysql
+
+# Dokuwiki
+dokuwiki:
+    image: ghcr.io/linuxserver/dokuwiki
+    container_name: dokuwiki
+    volumes_from:
+      - dokuwiki-data
+    labels:
+      - "traefik.frontend.rule=Host:wiki.localdomain"
+      - "traefik.port=80"
+      - "traefik.backend=dokuwiki"
+      - "traefik.frontend.entryPoints=http"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    ports:
+      - 80
+    restart: unless-stopped
+
+dokuwiki-data:
+    image: ubuntu:latest
+    volumes:
+        - /config/dokuwiki/
