@@ -19,6 +19,23 @@ traefik:
       - "traefik.frontend.auth.basic=test:$$apr1$$gPjYTE6J$$RkWWC8Qk0LDAVKKE.5jPo0"
 
 # ----------------------------------
+# Web hypnose
+# Professionnal hypnose website
+web-hypnose:
+    image: nginx
+    volumes:
+        - ./web-hypnose/nginx.conf:/etc/nginx/nginx.conf:ro
+        - ./static-hypnose/:/static
+    labels:
+      - "traefik.frontend.rule=Host:hypnose.localdomain"
+      - "traefik.port=80"
+      - "traefik.backend=hypnose"
+      - "traefik.frontend.entryPoints=http"
+    restart: always
+
+
+
+# ----------------------------------
 # Blog jonglage
 # A blog on jonglage
 
