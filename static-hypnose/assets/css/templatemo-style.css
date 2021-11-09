@@ -489,6 +489,8 @@ button:hover {
 .service-item:hover .seventh-service-icon {
     background-image: url(../images/experience_icon.png);
 }
+
+
 /* My Work */
 
 section.my-work .section-heading {
@@ -587,7 +589,7 @@ figure.snip1321 figcaption {
   position: absolute;
   opacity: 0;
   z-index: 1;
-
+}
 figure.snip1321 h4 {
     margin-top: 15px;
   margin-bottom: 5px;
