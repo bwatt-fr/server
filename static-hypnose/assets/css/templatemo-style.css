@@ -408,6 +408,10 @@ button:hover {
     transition: all 0.5s;
 }
 
+.service-item h3 {
+    transition: all 0.5s;
+}
+
 .service-item p {
     transition: all 0.5s;
 }
@@ -417,6 +421,10 @@ button:hover {
 }
 
 .service-item:hover h4 {
+    color: #1e1e1e;
+}
+
+.service-item:hover h3 {
     color: #1e1e1e;
 }
 
