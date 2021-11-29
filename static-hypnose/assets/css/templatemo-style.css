@@ -443,59 +443,59 @@ button:hover {
 }
 
 .service-item .first-service-icon {
-    background-image: url(../images/sommeil_icon.png);
+    background-image: url(../images/sommeil_icon.webp);
 }
 
 .service-item:hover .first-service-icon {
-    background-image: url(../images/sommeil_icon.png);
+    background-image: url(../images/sommeil_icon.webp);
 }
 
 .service-item .second-service-icon {
-    background-image: url(../images/smoking_icon.png);
+    background-image: url(../images/smoking_icon.webp);
 }
 
 .service-item:hover .second-service-icon {
-    background-image: url(../images/smoking_icon.png);
+    background-image: url(../images/smoking_icon.webp);
 }
 
 .service-item .third-service-icon {
-    background-image: url(../images/araignee_icon.png);
+    background-image: url(../images/araignee_icon.webp);
 }
 
 .service-item:hover .third-service-icon {
-    background-image: url(../images/araignee_icon.png);
+    background-image: url(../images/araignee_icon.webp);
 }
 
 .service-item .fourth-service-icon {
-    background-image: url(../images/balance_icon.png);
+    background-image: url(../images/balance_icon.webp);
 }
 
 .service-item:hover .fourth-service-icon {
-    background-image: url(../images/balance_icon.png);
+    background-image: url(../images/balance_icon.webp);
 }
 
 .service-item .fifth-service-icon {
-    background-image: url(../images/emotion_icon.png);
+    background-image: url(../images/emotion_icon.webp);
 }
 
 .service-item:hover .fifth-service-icon {
-    background-image: url(../images/emotion_icon.png);
+    background-image: url(../images/emotion_icon.webp);
 }
 
 .service-item .sixth-service-icon {
-    background-image: url(../images/deuil_icon.png);
+    background-image: url(../images/deuil_icon.webp);
 }
 
 .service-item:hover .sixth-service-icon {
-    background-image: url(../images/deuil_icon.png);
+    background-image: url(../images/deuil_icon.webp);
 }
 
 .service-item .seventh-service-icon {
-    background-image: url(../images/experience_icon.png);
+    background-image: url(../images/experience_icon.webp);
 }
 
 .service-item:hover .seventh-service-icon {
-    background-image: url(../images/experience_icon.png);
+    background-image: url(../images/experience_icon.webp);
 }
 
 
