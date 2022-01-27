@@ -273,3 +273,23 @@ dokuwiki-data:
     image: ubuntu:latest
     volumes:
         - /config/dokuwiki/
+
+
+# Airsonic
+airsonic:
+    image: airsonic/airsonic
+    labels:
+      - "traefik.frontend.rule=Host:music.localdomain"
+      - "traefik.port=4040"
+      - "traefik.backend=music"
+      - "traefik.frontend.entryPoints=http"
+    ports:
+        - 4040:4040
+    volumes_from:
+        - airsonic-data
+    restart: always
+
+airsonic-data:
+    image: alpine:latest
+    volumes:
+        - /airsonic/data
