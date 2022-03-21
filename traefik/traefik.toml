@@ -19,3 +19,20 @@ domain = "localdomain" # Default domain
 watch = true # Traefik will know when there will be changes on Docker
 
 exposedbydefault = true 
+
+[http]
+  [middlewares]
+    [SecHeaders]
+      [headers]
+        frameDeny = true
+	contentTypeNosniff = true
+	browserXssFilter = true
+	forceSTSHeader = true
+	stsIncludeDubdomains = true
+	stsSeconds = 31536000
+
+[tls]
+  [options]
+    [default]
+      minVersion = "VersionTLS12"
+      sniStrict = true
